@@ -11,7 +11,7 @@ void sol() {
 	int ans = 0;
 	int mn = INF;
 	int cnt = 0;
-	for (auto [a, b]: mp) {
+	for (auto [a, b]: mp) { 
 		mn = min(mn, b);
 		ans += b % 2;
 		cnt += b % 2 == 0;
