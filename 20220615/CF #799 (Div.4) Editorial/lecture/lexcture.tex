@@ -246,7 +246,7 @@
     			\item 若每次尋找最大前墜和的過程都是 $\mathcal{O}(n)$，那麼整體複雜度會來到 $\mathcal{O}(n^2)$
     			\item 觀察一下 $r_a$ 會發現，他其實就是幾個 $+1$ 中間插入很多個 $-1$ 組成的，再加上最好的邊界一定落在 $r_{a,i}=+1$ 的位置，所以我們只需要紀錄那些點是 $+1$ 即可
     			\item 每次計算最大前墜和的複雜度變為 $\mathcal{O}(cnt_a)$
-    			\item 最終的複雜度就會是 $\mathcal{O}(\displaystyle\sum{cnt_{a}}) = \mathcal{O}(n)$ 加上離散化的 $\mathcal{O}(n\log n) \mathcal{O}(n\log n)$
+    			\item 最終的複雜度就會是 $\mathcal{O}(\displaystyle\sum{cnt_{a}}) = \mathcal{O}(n)$ 加上離散化的 $\mathcal{O}(n\log n) = \mathcal{O}(n\log n)$
     		\end{itemize}
     \end{frame}
 
