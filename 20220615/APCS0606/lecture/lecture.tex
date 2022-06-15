@@ -1,0 +1,187 @@
+\documentclass[aspectratio=169]{beamer}
+\usefonttheme{serif}
+\usepackage{xeCJK}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{indentfirst}
+\usepackage{tikz}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{ulem}
+\usepackage{version}
+\usepackage{thmtools}
+\usepackage{qtree}
+\usepackage{algpseudocode}
+\usepackage{mathtools}
+\usepackage{multicol}
+\usepackage{xcolor}
+
+\AtBeginDocument{%
+    \DeclareSymbolFont{pureletters}{T1}{\mathfamilydefault}{\mddefault}{it}%
+    }
+
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+
+\setCJKmainfont[AutoFakeBold,AutoFakeSlant]{SourceHanSansTW-Regular.otf}
+\usetikzlibrary{arrows,decorations.markings,decorations.pathreplacing}
+\newenvironment{Hint}{\noindent\textbf{Hint.}}{}
+
+\tikzstyle {graph node} = [circle, draw, minimum width=1cm]
+\tikzset{edge/.style = {decoration={markings,mark=at position 1 with %
+            {\arrow[scale=2,>=stealth]{>}}},postaction={decorate}}}
+
+\lstset{
+    basicstyle=\ttfamily\normalsize,
+    numberstyle=\normalsize,
+    numbers=left,
+    stepnumber=1,
+    numbersep=3pt,
+    commentstyle=\color{black!50},
+    keywordstyle=\color{white!0!blue},
+    stringstyle=\color{black!50!green},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    captionpos=b,
+    breaklines=true,
+    breakatwhitespace=false,
+    escapeinside={\%*}{*)},
+    morekeywords={*}
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+\title{APCS 202206 題解}
+\author{Koying}
+\date{2022-06-15}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\setbeamertemplate{itemize items}[square]
+\setbeamertemplate{enumerate items}[default]
+\setbeamertemplate{blocks}[default]
+\lstdefinestyle{myStyle}{
+    belowcaptionskip=1\baselineskip,
+    breaklines=true,
+    frame=none,
+    numbers=none, 
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    backgroundcolor=\color{gray!10!white},
+}
+
+\begin{document}
+
+    \begin{frame}
+        \titlepage
+    \end{frame}
+    
+    \begin{frame}{reference}
+    		\begin{itemize}
+    			\item LaTeX 資源：https://github.com/wiwiho/latex-template
+    			\item 題解原稿：https://hackmd.io/@Koying/S1uVCBBYc
+    			\item 題解提供的程式碼可以在這裡找到：
+    		\end{itemize}
+    \end{frame}
+    
+	\section{P1 數字遊戲}    
+    
+    \begin{frame}{APCS 202206 P1}
+    		\begin{block}{ZJ i399 數字遊戲}
+    			給三個正整數，求眾數以及去重之後從大排到小的順序
+    		\end{block}
+		
+		\begin{itemize}
+			\item 用任意方法將其排序之後，找到出現最多次的將其輸出
+			\item 若排序後 $a_i \neq a_i-1$ 則將 $a_i$ 輸出
+			\item 參考程式：P1.cpp
+		\end{itemize}		    		
+    		
+    \end{frame}
+    
+	\section{P2 字串解碼}    
+    
+    \begin{frame}{APCS 202206 P2}
+    		\begin{block}{ZJ i400}
+    			給一個加密過程以及加密過的字串，求加密前的字串
+    		\end{block}
+    		
+    		\begin{itemize}
+    			\item 使用一個 deque 紀錄目前的字串，以支援題目所需的操作
+    		\end{itemize}
+    \end{frame}
+    
+	\section{P3 雷射測試}    
+    
+    \begin{frame}{APCS 202206 P3}
+    		\begin{block}{ZJ i401 雷射測試}
+    			有多個以 $/$ 或是 $\backslash$ 呈現 $45^\circ$ 擺放於格子點（整數座標）的鏡子，不記寬度，求一道由 $(0,0)$ 向右射出的雷射光會經過幾次反彈，保證不會循環
+    		\end{block}
+    		
+    \end{frame}
+    
+    \begin{frame}
+    		本題的重點在要如何以非線性的時間求出每個鏡子上下左右的鏡子是哪個
+    		\begin{itemize}
+    		\item 可以觀察到：
+    		\begin{itemize}
+    			\item 求上下的鏡子就是 $x$ 軸不變 $y$ 軸變
+			\item 求左右則是 $y$ 軸不變 $x$ 軸變
+    		\end{itemize}
+    		
+    		\item 觀察到以上兩種性質的話我們就可以想到兩種方法：
+    		\begin{enumerate}
+    			\item 以類似圖論的方法，利用多個 vector 紀錄每個 $x/y$ 座標座標有哪些對應的 $y/x$ 座標，利用二分搜去找到對應的座標
+			\item 將原始的輸入直接以 $x/y$ 排列，即可利用二分搜找到上下左右的點
+    		\end{enumerate}
+    		
+    		\item 時間複雜度：$\mathcal{O}(n\log n)$
+    		\item 作法二參考程式；P3.cpp
+    		\end{itemize}
+    \end{frame}
+    
+    \section{P4 內積}
+    
+    \begin{frame}{APCS 202206 P4}
+    		\begin{block}{ZJ i402 內積}
+    			給兩個長度分別為 $n, m$ 的陣列 $A, B$，求從 $A, B$ 取出一個任意長度 $l$ 的子區間 $a, b$ 的最大內積值，$a, b$ 區間可逆\\
+			內積的算法為：$\displaystyle\sum_{i=0}^{l-1}{a_i \times b_i}$
+    		\end{block}
+    		
+    \end{frame}
+    
+    \begin{frame}
+    		\begin{itemize}
+    			\item 可以觀察到，對於任意一個子區間 $A[l_1, r_1], B[l_2, r_2]$，考慮兩種情況：
+    			\begin{enumerate}
+    				\item 若 $l_1 \le l_2$，那麼 $A[l_1, r_1], B[l_2, r_2]$ 必定包含於 $A[1, r_1], B[l_2-l_1+1, r_2]$ 內
+				\item 若 $l_1 > l_2$，那麼 $A[l_1, r_1], B[l_2, r_2]$ 必定包含於 $A[l_1-l_2+1, r_1], B[1, r_2]$ 內
+    			\end{enumerate}
+    			
+    			\item 綜合以上幾點我們可以發現，對於每個區間 $[l_1, r_1], [l_2, r_2]$，必定包含在 $(l_1, l_2)$ 分別為 $(1, 1\sim m)$ 或是 $(1\sim n, 1)$ 的區間內
+    			\item 若定義一個函數 $cal(l_1, l_2)$ 代表以 $l_1, l_2$ 為開頭的區間的最大區間和，那麼我們就只需要枚舉 $cal(1, 1\sim m)$ 以及 $cal(1\sum n, 1)$，若要算區間反轉則須把 $A$ 或是 $b$ 反轉一次並重做一次上敘的操作即可得到答案
+    			\item 至於 $cal()$ 的實作可以利用 (當前前墜和 $-$ 前綴最小前墜和) 的方式來找到最大連續區間和
+    			\item 時間複雜度：$\mathcal{O}(n^2)$
+    			\item 參考程式：P4.cpp
+    		\end{itemize}
+    \end{frame}
+
+\end{document}
